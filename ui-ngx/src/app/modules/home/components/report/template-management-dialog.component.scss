@@ -1,0 +1,37 @@
+
+  /* 取消所有 mat-dialog-content 的 margin 和 padding */
+  mat-dialog-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+
+
+  /* 取消所有 mat-list-item 的 margin 和 padding */
+  mat-list-item {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 取消所有 mat-toolbar 的 margin 和 padding */
+  mat-toolbar {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 取消所有 mat-icon-button 的 margin 和 padding */
+  mat-icon-button {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 取消所有 mat-raised-button 的 margin 和 padding */
+  mat-raised-button {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+
+.template-upload-button {
+  margin-right: 30px;
+}

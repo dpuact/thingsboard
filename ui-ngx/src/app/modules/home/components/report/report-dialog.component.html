@@ -1,0 +1,44 @@
+<mat-card class="settings-card">
+  <mat-toolbar color="primary">
+    <h2>{{ 'report.report-general' | translate }}</h2>
+    <span fxFlex></span>
+    <div [tb-help]="'devices'"></div>
+    <button mat-icon-button (click)="closeDialog()" type="button">
+      <mat-icon class="material-icons">close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-card-content fxFlex="100" fxLayout="column" fxLayoutAlign="center center"
+    style="margin-left: 20px; margin-right: 20px; margin-top: 10px;">
+    <mat-form-field class="custom-mat-form-field" style="width: 100%">
+      <input matInput [(ngModel)]="reportTitle" placeholder="{{ 'report.report-title' | translate }}">
+    </mat-form-field>
+    <mat-form-field class="custom-width-select" >
+      <mat-label>{{ 'report.template-version' | translate }}</mat-label>
+      <mat-select [(ngModel)]="version" placeholder="{{ 'report.template-version' | translate }}" >
+        <mat-option *ngFor="let template of templateList" [value]="template.versionControl">
+          {{ template.versionControl }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- <h3 class="custom-heading">Select Template Version</h3>
+    <mat-select [(ngModel)]="version" placeholder="Template Version" class="mat-select-underline">
+      <mat-option *ngFor="let template of templateList" [value]="template.versionControl">
+        {{ template.versionControl }}
+      </mat-option>
+    </mat-select> -->
+  </mat-card-content>
+
+  <div mat-dialog-actions fxLayoutAlign="end center" style="margin-right: 10px;">
+    <button mat-button color="primary" type="button" (click)="closeDialog()">
+      {{ 'action.cancel' | translate }}
+    </button>
+    <button mat-raised-button color="primary" (click)="generateReport(reportTitle, version)">
+      {{ 'report.report-general' | translate }}
+    </button>
+
+    <button mat-raised-button color="primary" (click)="openTemplateManagement()" type="button">
+      {{ 'report.template-management' | translate }}
+    </button>
+  </div>
+
+</mat-card>

@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+    <h2>{{ 'report.upload-file' | translate }}</h2>
+    <span fxFlex></span>
+    <div [tb-help]="'devices'"></div>
+    <button mat-icon-button (click)="closeDialog()" type="button">
+        <mat-icon class="material-icons">close</mat-icon>
+    </button>
+</mat-toolbar>
+<input type="file" #fileInput style="padding-left: 20px; padding-top: 20px;" accept=".zip">
+<input type="text" placeholder="{{ 'report.template-name' | translate }}" [(ngModel)]="templateName" />
+<div mat-dialog-actions fxLayoutAlign="end center" class="template-upload-button" style="margin-right: 30px; margin-top: 20px;">
+    <button mat-button color="primary" type="button" (click)="closeDialog()">
+        {{ 'action.cancel' | translate }}
+      </button>
+    <button mat-raised-button (click)="uploadFile(fileInput,templateName)" color="primary">{{ 'action.import' | translate }}</button>
+</div>

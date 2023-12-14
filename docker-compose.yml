@@ -1,0 +1,32 @@
+version: '3.0'
+services:
+  # pgdb:
+  #   restart: always
+  #   image: "postgres:12"
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_DB: thingsboard
+  #     POSTGRES_PASSWORD: admin
+  #   volumes:
+  #     - pgdb-data:/var/lib/postgresql/data
+  mytb:
+    restart: always
+    image: "yiconnect:3.4.4"
+    ports:
+      - "8080:9090"
+      - "1883:1883"
+      - "7070:7070"
+      - "5683-5688:5683-5688/udp"
+    environment:
+      TB_QUEUE_TYPE: in-memory
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pgdb:5432/thingsboard
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+    # depends_on:
+    #   - pgdb
+    volumes:
+      - ~/mytb-data:/data
+      - ~/mytb-logs:/var/log/thingsboard
+# volumes:
+#   pgdb-data:

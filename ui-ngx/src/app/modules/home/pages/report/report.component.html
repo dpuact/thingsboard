@@ -1,0 +1,92 @@
+<!--
+
+    Copyright © 2016-2023 The Thingsboard Authors
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- 详细页面按钮 -->
+<div class="tb-details-buttons" fxLayout.xs="column">
+  <button mat-raised-button color="primary" (click)="onEntityAction($event, 'open')"
+    [fxShow]="!isEdit && !isDetailsPage">
+    {{'common.open-details-page' | translate }}
+  </button>
+  <button mat-raised-button color="primary" (click)="onEntityAction($event,'download')" [fxShow]="!isEdit">
+    {{'report.download' | translate }}
+  </button>
+  <button mat-raised-button color="primary" fxFlex.xs (click)="onEntityAction($event, 'delete')"
+    [fxShow]="!hideDelete() && !isEdit">
+    {{'report.delete' | translate }}
+  </button>
+  <!-- <div fxLayout="row" fxLayout.xs="column">
+    <button mat-raised-button ngxClipboard (cbOnSuccess)="onReportIdCopied($event)" [cbContent]="entity?.id?.id"
+      [fxShow]="!isEdit">
+      <mat-icon svgIcon="mdi:clipboard-arrow-left"></mat-icon>
+      <span translate>report.copyId</span>
+    </button>
+  </div> -->
+</div>
+
+<!-- 详细页面输入框 -->
+<div class="mat-padding" fxLayout="column">
+  <mat-form-field class="mat-block" [fxShow]="!isEdit && isAssignedToCustomer(entity)
+                              && !entity?.customerIsPublic && reportScope === 'tenant'">
+    <mat-label translate>report.assignedToCustomer</mat-label>
+    <input matInput disabled [ngModel]="entity?.customerTitle">
+  </mat-form-field>
+  <div class="tb-small" style="padding-bottom: 10px; padding-left: 2px;"
+    [fxShow]="!isEdit && entity?.customerIsPublic && (reportScope === 'customer' || reportScope === 'tenant')">
+    {{ 'report.report-public' | translate }}
+  </div>
+  <form [formGroup]="entityForm">
+    <fieldset [disabled]="(isLoading$ | async) || !isEdit">
+      <mat-form-field class="mat-block">
+        <mat-label translate>report.name</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="entityForm.get('name').hasError('required')">
+          {{ 'report.name-required' | translate }}
+        </mat-error>
+        <mat-error *ngIf="entityForm.get('name').hasError('maxlength')">
+          {{ 'report.name-max-length' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <!-- <tb-device-profile-autocomplete [selectDefaultProfile]="isAdd" required formControlName="reportType"
+        [showDetailsPageLink]="true">
+      </tb-device-profile-autocomplete> -->
+      <mat-form-field class="mat-block">
+        <mat-label translate>report.label</mat-label>
+        <input matInput formControlName="label">
+        <mat-error *ngIf="entityForm.get('label').hasError('maxlength')">
+          {{ 'report.label-max-length' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <!-- <tb-device-data formControlName="deviceData" required>
+      </tb-device-data> -->
+      <!-- <div formGroupName="additionalInfo" fxLayout="column">
+        <div fxLayout="row" fxLayout.xs="column" style="padding-bottom: 16px;">
+          <mat-checkbox fxFlex.gt-sm="30" fxFlex formControlName="gateway">
+            {{ 'report.is-gateway' | translate }}
+          </mat-checkbox>
+          <mat-checkbox fxFlex *ngIf="entityForm.get('additionalInfo.gateway').value"
+            formControlName="overwriteActivityTime">
+            {{ 'report.overwrite-activity-time' | translate }}
+          </mat-checkbox>
+        </div>
+        <mat-form-field class="mat-block">
+          <mat-label translate>report.description</mat-label>
+          <textarea matInput formControlName="description" rows="2"></textarea>
+        </mat-form-field>
+      </div> -->
+    </fieldset>
+  </form>
+</div>

@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <h2>{{ 'report.template-management' | translate }}</h2>
+  <span fxFlex></span>
+  <div [tb-help]="'devices'"></div>
+  <button mat-icon-button (click)="closeDialog()" type="button">
+    <mat-icon class="material-icons">close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-list style="max-height: 600px; overflow-y: auto;">
+  <mat-list-item *ngFor="let template of templateList">
+    <h3 matLine>Template Name: {{ template.templateName }}</h3>
+    <h3 matLine>Version Control: {{ template.versionControl }}</h3>
+    <p matLine>Create Time: {{ template.createTime }}</p>
+    <button mat-icon-button matListIcon style="color: rgba(0,0,0,0.54);" (click)="deleteTemplate(template.templateId)">
+      <mat-icon>{{ 'action.delete' | translate }}</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>
+
+<div mat-dialog-actions fxLayoutAlign="end center" class="template-upload-button" style="margin-right: 30px; margin-top: 20px;">
+  <button mat-button color="primary" type="button" (click)="closeDialog()">
+    {{ 'action.cancel' | translate }}
+  </button>
+  <button mat-raised-button color="primary" type="button" (click)="openTemplateUploadDialog()">{{ 'action.import' | translate }}</button>
+</div>

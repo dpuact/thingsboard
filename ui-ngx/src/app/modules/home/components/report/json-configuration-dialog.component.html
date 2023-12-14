@@ -1,0 +1,168 @@
+<div>
+    <mat-toolbar color="primary">
+        <h2>{{ 'report.json-tool' | translate }}</h2>
+        <span fxFlex></span>
+        <div [tb-help]="'devices'"></div>
+        <button mat-icon-button (click)="closeDialog()" type="button">
+            <mat-icon class="material-icons">close</mat-icon>
+        </button>
+    </mat-toolbar>
+    <div class="json-configuration-dialog" style="padding: 0px;">
+        <div class="upload-section">
+            <div class="file-input-wrapper">
+                <input type="file" (change)="onFileSelected($event.target)" accept=".jrxml"/>
+                <p>{{ selectedFileName }}</p>
+            </div>
+        </div>
+        <!-- 内容部分 -->
+        <div class="content-section">
+            <!-- 左侧部分 -->
+            <mat-card class="left-section-jsonconfig">
+                <div class="select-input-container">
+                    <mat-form-field>
+                        <mat-label>{{ 'report.template-fields' | translate }}</mat-label>
+                        <mat-select [(ngModel)]="selectedOptionLeft" (ngModelChange)="onLeftDropdownChange()">
+                            <mat-option *ngFor="let item of leftDropdownOptions" [value]="item">{{ item }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Input field for searching -->
+                    <mat-form-field class="search-input">
+                        <input matInput placeholder="{{ 'action.search' | translate }}" (input)="onSearchTemplateFields($event.target.value)">
+                    </mat-form-field>
+                </div>
+
+                <mat-nav-list>
+                    <mat-list-item *ngFor="let item of filteredData" (click)="onLeftListSelect(item)">{{ item
+                        }}</mat-list-item>
+                </mat-nav-list>
+            </mat-card>
+
+
+            <!-- 中间部分 -->
+            <mat-card class="center-section-jsonconfig">
+                <mat-nav-list class="custom-list">
+                    <span style="font-size: 12px;">Parameters</span>
+                    <mat-list-item *ngFor="let pair of parameterPairs">
+                        {{ pair.key }}: {{ pair.value }}
+                        <button mat-icon-button (click)="onDeleteClick(pair)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-nav-list>
+                <mat-nav-list class="custom-list">
+                    <span style="font-size: 12px;">Fields</span>
+                    <mat-list-item *ngFor="let pair of fieldPairs">
+                        {{ pair.key }}: {{ pair.value }}
+                        <button mat-icon-button (click)="onDeleteClick(pair)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-nav-list>
+                <mat-nav-list class="custom-list">
+                    <span style="font-size: 12px;">DataSource</span>
+                    <mat-list-item *ngFor="let pair of dataSourcePairs">
+                        {{ pair.key }}: {{ pair.value }}
+                        <button mat-icon-button (click)="onDeleteClick(pair)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-nav-list>
+                <mat-nav-list class="custom-list">
+                    <span style="font-size: 12px;">Images</span>
+                    <mat-list-item *ngFor="let pair of imagePairs">
+                        {{ pair.key }}: {{ pair.value }}
+                        <button mat-icon-button (click)="onDeleteClick(pair)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-nav-list>
+
+                <!-- 按钮部分 -->
+                <div class="buttons-section">
+                    <div class="horizontal-buttons">
+                        <div class="string-display bordered">
+                            <span class="placeholder-text" *ngIf="!selectedValueLeft" (input)="onInputChange()">{{ 'report.template-fields' | translate }}</span>
+                            {{ selectedValueLeft }}
+                        </div>
+                        <div class="string-display bordered right" *ngIf="showManualInput">
+                            <input [(ngModel)]="manualInputValue" placeholder="手动输入" (input)="onManualInputChange()"
+                                class="right" />
+                        </div>
+                        <div class="string-display bordered right" *ngIf="!showManualInput">
+                            <span class="placeholder-text" *ngIf="!selectedValueRight" (input)="onInputChange()">{{ 'report.data-fields' | translate }}</span>
+                            {{ selectedValueRight }}
+                        </div>
+                        <button mat-icon-button (click)="toggleDisplayMode()" matTooltip="手动输入Data Fields">
+                            <mat-icon>{{ showManualInput ? 'done' : 'edit' }}</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="vertical-buttons">
+                        <button mat-raised-button color="primary" (click)="onBindClick()">绑定</button>
+                    </div>
+                </div>
+
+            </mat-card>
+
+            <!-- 右侧部分 -->
+            <mat-card class="right-section-jsonconfig">
+                <div class="select-input-container">
+                    <button mat-raised-button [matMenuTriggerFor]="entityFields">
+                        {{ 'report.data-fields' | translate }}
+                        <mat-icon>arrow_drop_down</mat-icon>
+                    </button>
+                    <mat-menu #entityFields="matMenu">
+
+                        <button mat-menu-item [matMenuTriggerFor]="deviceSubMenu">{{ 'device.device' | translate }}</button>
+                        <button mat-menu-item [matMenuTriggerFor]="customerSubMenu">{{ 'customer.customer' | translate }}</button>
+                        <button mat-menu-item [matMenuTriggerFor]="assetSubMenu">{{ 'asset.asset' | translate }}</button>
+                    </mat-menu>
+
+                    <!-- Input field for searching -->
+                    <mat-form-field class="search-input">
+                        <input matInput placeholder="{{ 'action.search' | translate }}" (input)="onSearchDataFields($event.target.value)">
+                    </mat-form-field>
+
+                    <mat-menu #deviceSubMenu="matMenu">
+                        <button mat-menu-item *ngFor="let subItem of deviceNames"
+                            (click)="getDataFields(subItem,'YiServerDevice')">
+                            {{ subItem.name }}
+                        </button>
+                    </mat-menu>
+                    <mat-menu #customerSubMenu="matMenu">
+                        <button mat-menu-item *ngFor="let subItem of customerNames"
+                            (click)="getDataFields(subItem,'YiServerCustomer')">
+                            {{ subItem.name }}
+                        </button>
+                    </mat-menu>
+                    <mat-menu #assetSubMenu="matMenu">
+                        <button mat-menu-item *ngFor="let subItem of assetNames"
+                            (click)="getDataFields(subItem,'YiServerAsset')">
+                            {{ subItem.name }}
+                        </button>
+                    </mat-menu>
+                </div>
+                <mat-nav-list>
+                    <mat-list-item *ngFor="let field of filteredDataFields" (click)="onRightListSelect(field)">{{ field
+                        }}</mat-list-item>
+                </mat-nav-list>
+            </mat-card>
+        </div>
+
+        <!-- 文件上传部分 -->
+        <div class="jsonconfig-end">
+            <mat-label>Tips：首先上传 Jrxml 模版文件，从左右两侧列表中各取一值进行一对一绑定，图片需由手动输入文件名称。
+
+            </mat-label>
+            <div class="jsonconfig-buttons-end">
+                <button mat-button color="primary" type="button" (click)="closeDialog()">
+                    {{ 'action.cancel' | translate }}
+                </button>
+                <button mat-raised-button color="primary" (click)="jsonGenerate()" style="margin-top: 30px;">
+                    {{ 'report.json-general' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

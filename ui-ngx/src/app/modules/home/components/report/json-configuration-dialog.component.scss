@@ -1,0 +1,206 @@
+.json-configuration-dialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.file-upload-section {
+    margin-bottom: 20px;
+}
+
+.content-section {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.left-section-jsonconfig,
+.center-section-jsonconfig,
+.right-section-jsonconfig {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+    text-align: center;
+    height: 560px;
+}
+
+.dropdown {
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.buttons-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.horizontal-buttons {
+    display: flex;
+}
+
+.vertical-buttons button {
+    display: block;
+}
+
+.mat-nav-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.string-display {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.bordered {
+    border: 1px solid #000;
+    font-size: 16px;  // 使用vw单位，根据视口宽度调整字体大小
+    text-align: center;
+    line-height: 35px;
+    height: 35px;
+    width: 210px;
+    white-space: nowrap; // 防止文本换行
+    overflow: hidden; // 隐藏文本溢出部分
+    text-overflow: ellipsis; // 显示省略号（...）来表示被隐藏的文本
+}
+
+.right{
+    width: 150px;
+    height: 35px;
+}
+
+.buttons-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+.horizontal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.vertical-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.left-section {
+    width: 210px;
+    height: 330px;
+}
+
+.mat-nav-list {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.mat-list-base {
+    padding-top: 0px;
+}
+
+.right-section {
+    width: 210px;
+    height: 330px;
+}
+
+.center-section {
+    width: 210px;
+    height: 330px;
+}
+
+.tb-default .tb-dialog .mat-dialog-container,
+.tb-dark .tb-dialog .mat-dialog-container {
+    padding: 0 !important;
+}
+
+.mat-nav-list .mat-list-item {
+    font-size: 12px;
+}
+
+.custom-list {
+    height: 100px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    /* 边框 */
+    margin: 10px;
+    /* 外边距 */
+    padding: 10px;
+    /* 内边距 */
+    background-color: #f4f4f4;
+    /* 背景颜色 */
+    border-radius: 5px;
+    /* 圆角 */
+    white-space: nowrap; // 防止文本换行
+    text-overflow: ellipsis; // 显示省略号（...）来表示被隐藏的文本
+}
+
+.upload-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: space-between; /* 左右对齐 */
+}
+
+.mat-label {
+    font-size: 16px;
+}
+
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+input[type="file"]+p {
+    margin-left: 10px;
+    font-weight: 600;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+input[type="file"]+p:hover {
+    color: #0056b3;
+}
+
+.search-input {
+    width: 80px;
+    margin-left: 20px;
+}
+
+.jsonconfig-end{
+    margin-top: 60px;
+}
+
+.jsonconfig-buttons-end{
+    margin-left: 880px;
+}
+
+.mat-nav-list {
+    max-height: 470px;
+    overflow-y: auto; /* 添加垂直滚动条 */
+  }
+  
+  .mat-list-item:nth-child(odd) {
+    background-color: #f0f0f0; /* 灰色 */
+  }
+  
+  .mat-list-item:nth-child(even) {
+    background-color: #ffffff; /* 白色 */
+  }
+  
+
+  .placeholder-text {
+    color: gray; /* 设置提示文本颜色 */
+    font-style: italic; /* 斜体样式 */
+}
+

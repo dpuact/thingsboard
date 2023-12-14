@@ -1,0 +1,89 @@
+@import "../../../../../scss/constants";
+
+:host {
+  .mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 !important;
+  }
+
+  mat-card.settings-card {
+
+    padding: 0 !important;
+    @media #{$mat-md} {
+      width: 90%;
+    }
+
+    .fields-group {
+      margin: 8px 0;
+      border: 1px groove rgba(0, 0, 0, .25);
+      border-radius: 4px;
+      position: relative;
+      padding-bottom: px;
+
+      legend {
+        color: rgba(0, 0, 0, .7);
+        width: fit-content;
+        margin: 0 8px;
+      }
+
+      .input-row {
+        padding: 8px 8px 0;
+      }
+
+      &:last-of-type {
+        margin-bottom: 24px;
+      }
+    }
+
+    .mat-expansion-panel {
+      box-shadow: none;
+      margin: 1px 0 0;
+
+      &.provider {
+        overflow: inherit;
+
+        .mat-expansion-panel-header {
+          padding: 0 24px 0 8px;
+
+          &.mat-expanded {
+            height: 48px;
+          }
+
+          .mat-slide-toggle {
+            margin-right: 8px;
+          }
+        }
+
+        .mat-expansion-panel-header-title {
+          height: 40px;
+        }
+      }
+    }
+  }
+}
+
+.mat-select-underline {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.54);
+}
+
+.custom-heading {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+  text-align: left;
+  width: 100%;
+  font-weight: normal;
+}
+
+.custom-width-select {
+  width: 100% !important; 
+}
+
+
+
+
+::ng-deep .report-dialog .mat-dialog-container {
+  padding: 0;
+  margin: 0;
+}
