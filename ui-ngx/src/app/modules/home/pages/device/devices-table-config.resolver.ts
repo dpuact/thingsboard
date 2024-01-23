@@ -221,12 +221,12 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
     const actions: Array<CellActionDescriptor<DeviceInfo>> = [];
     if (deviceScope === 'tenant') {
       actions.push(
-        {
-          name: this.translate.instant('device.make-pdf'),
-          icon: 'picture_as_pdf',
-          isEnabled: () => true,
-          onAction: ($event, entity) => this.openReportDialog($event, 'DeviceDetail', entity)
-        },
+        // {
+        //   name: this.translate.instant('device.make-pdf'),
+        //   icon: 'picture_as_pdf',
+        //   isEnabled: () => true,
+        //   onAction: ($event, entity) => this.openReportDialog($event, 'DeviceDetail', entity)
+        // },
         {
           name: this.translate.instant('device.make-public'),
           icon: 'share',

@@ -201,12 +201,12 @@ export class AssetsTableConfigResolver implements Resolve<EntityTableConfig<Asse
     const actions: Array<CellActionDescriptor<AssetInfo>> = [];
     if (assetScope === 'tenant') {
       actions.push(
-        {
-          name: this.translate.instant('asset.make-pdf'),
-          icon: 'picture_as_pdf',
-          isEnabled: () => true,
-          onAction: ($event, entity) => this.openReportDialog($event, 'AssetDetail', entity)
-        },
+        // {
+        //   name: this.translate.instant('asset.make-pdf'),
+        //   icon: 'picture_as_pdf',
+        //   isEnabled: () => true,
+        //   onAction: ($event, entity) => this.openReportDialog($event, 'AssetDetail', entity)
+        // },
         {
           name: this.translate.instant('asset.make-public'),
           icon: 'share',

@@ -66,12 +66,12 @@ export class CustomersTableConfigResolver implements Resolve<EntityTableConfig<C
       new EntityTableColumn<Customer>('city', 'contact.city', '25%')
     );
     this.config.cellActionDescriptors.push(
-      {
-        name: this.translate.instant('customer.make-pdf'),
-        icon: 'picture_as_pdf',
-        isEnabled: () => true,
-        onAction: ($event, entity) => this.openReportDialog($event, 'CustomerDetail', entity)
-      },
+      // {
+      //   name: this.translate.instant('customer.make-pdf'),
+      //   icon: 'picture_as_pdf',
+      //   isEnabled: () => true,
+      //   onAction: ($event, entity) => this.openReportDialog($event, 'CustomerDetail', entity)
+      // },
       {
         name: this.translate.instant('customer.manage-customer-users'),
         icon: 'account_circle',

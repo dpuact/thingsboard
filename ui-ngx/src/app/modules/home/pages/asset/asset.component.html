@@ -22,10 +22,10 @@
           [fxShow]="!isEdit && !isDetailsPage">
     {{'common.open-details-page' | translate }}
   </button>
-  <button mat-raised-button color="primary" [disabled]="(isLoading$ | async)"
+  <!-- <button mat-raised-button color="primary" [disabled]="(isLoading$ | async)"
     (click)="onEntityAction($event, 'openReportDialog')" [fxShow]="!isEdit">
     {{'asset.make-pdf' | translate }}
-  </button>
+  </button> -->
   <button mat-raised-button color="primary"
           [disabled]="(isLoading$ | async)"
           (click)="onEntityAction($event, 'makePublic')"

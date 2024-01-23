@@ -434,13 +434,13 @@ export class MenuService {
           }
         ]
       },
-      {
-        id: guid(),
-        name: 'report.reports',
-        type: 'link',
-        path: '/reports',
-        icon: 'picture_as_pdf'
-      }
+      // {
+      //   id: guid(),
+      //   name: 'report.reports',
+      //   type: 'link',
+      //   path: '/reports',
+      //   icon: 'picture_as_pdf'
+      // }
     );
     return sections;
   }
@@ -601,16 +601,16 @@ export class MenuService {
           }
         ]
       },
-      {
-        name: 'report.reports',
-        places: [
-          {
-            name: 'report.reports',
-            icon: 'picture_as_pdf',
-            path: '/reports'
-          }
-        ]
-      }
+      // {
+      //   name: 'report.reports',
+      //   places: [
+      //     {
+      //       name: 'report.reports',
+      //       icon: 'picture_as_pdf',
+      //       path: '/reports'
+      //     }
+      //   ]
+      // }
     );
     return homeSections;
   }
@@ -646,13 +646,13 @@ export class MenuService {
       //   path: '/entityViews',
       //   icon: 'view_quilt'
       // },
-      {
-        id: guid(),
-        name: 'report.reports',
-        type: 'link',
-        path: '/reports',
-        icon: 'picture_as_pdf'
-      }
+      // {
+      //   id: guid(),
+      //   name: 'report.reports',
+      //   type: 'link',
+      //   path: '/reports',
+      //   icon: 'picture_as_pdf'
+      // }
     );
     // if (authState.edgesSupportEnabled) {
     //   sections.push(
@@ -710,16 +710,16 @@ export class MenuService {
       //     }
       //   ]
       // },
-      {
-        name: 'report.reports',
-        places: [
-          {
-            name: 'report.reports',
-            icon: 'picture_as_pdf',
-            path: '/reports'
-          }
-        ]
-      }
+      // {
+      //   name: 'report.reports',
+      //   places: [
+      //     {
+      //       name: 'report.reports',
+      //       icon: 'picture_as_pdf',
+      //       path: '/reports'
+      //     }
+      //   ]
+      // }
     );
     // if (authState.edgesSupportEnabled) {
     //   homeSections.push(
