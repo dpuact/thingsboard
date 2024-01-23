@@ -1,23 +1,38 @@
-#
-# Copyright © 2016-2023 The Thingsboard Authors
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
-
 version: '3.0'
 
+volumes:
+  redis-data:
+  postgres-db-volume:
+
 services:
+  kafka:
+    restart: always
+    image: "bitnami/kafka:latest"
+    ports:
+      - "9092:9092"
+    env_file:
+      - kafka.env
+    depends_on:
+      - zookeeper
+  postgres:
+    restart: always
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: thingsboard
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+  redis:
+    restart: always
+    image: bitnami/redis:7.0
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/bitnami/redis/data
   zookeeper:
     restart: always
     image: "zookeeper:3.8.0"
@@ -34,6 +49,7 @@ services:
       replicas: 2
     env_file:
       - tb-js-executor.env
+      - queue-kafka.env
   tb-core1:
     restart: always
     image: "thingsboard/tb-node:3.4.4"
@@ -52,14 +68,20 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-node.env
+      - cache-redis.env
+      - tb-node.postgres.env
+      - queue-kafka.env
     volumes:
       - ./tb-node/conf:/config
-      - ~/mytb-logs:/var/log/thingsboard
+      - ./tb-logs:/var/log/thingsboard
     depends_on:
+      - redis
       - zookeeper
       - tb-js-executor
       - tb-rule-engine1
       - tb-rule-engine2
+      - postgres
+      - kafka
   tb-core2:
     restart: always
     image: "thingsboard/tb-node:3.4.4"
@@ -78,14 +100,20 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-node.env
+      - cache-redis.env
+      - tb-node.postgres.env
+      - queue-kafka.env
     volumes:
       - ./tb-node/conf:/config
-      - ~/mytb-logs:/var/log/thingsboard
+      - ./tb-logs:/var/log/thingsboard
     depends_on:
+      - redis
       - zookeeper
       - tb-js-executor
       - tb-rule-engine1
       - tb-rule-engine2
+      - postgres
+      - kafka
   tb-rule-engine1:
     restart: always
     image: "thingsboard/tb-node:3.4.4"
@@ -102,12 +130,18 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-node.env
+      - cache-redis.env
+      - tb-node.postgres.env
+      - queue-kafka.env
     volumes:
       - ./tb-node/conf:/config
-      - ~/mytb-logs:/var/log/thingsboard
+      - ./tb-logs:/var/log/thingsboard
     depends_on:
+      - redis
       - zookeeper
       - tb-js-executor
+      - postgres
+      - kafka
   tb-rule-engine2:
     restart: always
     image: "thingsboard/tb-node:3.4.4"
@@ -124,12 +158,18 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-node.env
+      - cache-redis.env
+      - tb-node.postgres.env
+      - queue-kafka.env
     volumes:
       - ./tb-node/conf:/config
-      - ~/mytb-logs:/var/log/thingsboard
+      - ./tb-logs:/var/log/thingsboard
     depends_on:
+      - redis
       - zookeeper
       - tb-js-executor
+      - postgres
+      - kafka
   tb-mqtt-transport1:
     restart: always
     image: "thingsboard/tb-mqtt-transport:3.4.4"
@@ -140,13 +180,17 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-mqtt-transport.env
+      - cache-redis.env
+      - queue-kafka.env
     volumes:
       - ./tb-transports/mqtt/conf:/config
-      - ~/mytb-transports/mqtt/log:/var/log/tb-mqtt-transport
+      - ./tb-transports/mqtt/log:/var/log/tb-mqtt-transport
     depends_on:
+      - redis
       - zookeeper
       - tb-core1
       - tb-core2
+      - kafka
   tb-mqtt-transport2:
     restart: always
     image: "thingsboard/tb-mqtt-transport:3.4.4"
@@ -157,13 +201,17 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-mqtt-transport.env
+      - cache-redis.env
+      - queue-kafka.env
     volumes:
       - ./tb-transports/mqtt/conf:/config
-      - ~/mytb-transports/mqtt/log:/var/log/tb-mqtt-transport
+      - ./tb-transports/mqtt/log:/var/log/tb-mqtt-transport
     depends_on:
+      - redis
       - zookeeper
       - tb-core1
       - tb-core2
+      - kafka
   tb-http-transport1:
     restart: always
     image: "thingsboard/tb-http-transport:3.4.4"
@@ -174,13 +222,17 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-http-transport.env
+      - cache-redis.env
+      - queue-kafka.env
     volumes:
       - ./tb-transports/http/conf:/config
-      - ~/mytb-transports/http/log:/var/log/tb-http-transport
+      - ./tb-transports/http/log:/var/log/tb-http-transport
     depends_on:
+      - redis
       - zookeeper
       - tb-core1
       - tb-core2
+      - kafka
   tb-http-transport2:
     restart: always
     image: "thingsboard/tb-http-transport:3.4.4"
@@ -191,62 +243,17 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-http-transport.env
+      - cache-redis.env
+      - queue-kafka.env
     volumes:
       - ./tb-transports/http/conf:/config
-      - ~/mytb-transports/http/log:/var/log/tb-http-transport
+      - ./tb-transports/http/log:/var/log/tb-http-transport
     depends_on:
+      - redis
       - zookeeper
       - tb-core1
       - tb-core2
-  # tb-coap-transport:
-  #   restart: always
-  #   image: "${DOCKER_REPO}/${COAP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}"
-  #   ports:
-  #     - "5683:5683/udp"
-  #   environment:
-  #     TB_SERVICE_ID: tb-coap-transport
-  #     JAVA_OPTS: "${JAVA_OPTS}"
-  #   env_file:
-  #     - tb-coap-transport.env
-  #   volumes:
-  #     - ./tb-transports/coap/conf:/config
-  #     - ./tb-transports/coap/log:/var/log/tb-coap-transport
-  #   depends_on:
-  #     - zookeeper
-  #     - tb-core1
-  #     - tb-core2
-  # tb-lwm2m-transport:
-  #   restart: always
-  #   image: "${DOCKER_REPO}/${LWM2M_TRANSPORT_DOCKER_NAME}:${TB_VERSION}"
-  #   ports:
-  #     - "5685:5685/udp"
-  #   environment:
-  #     TB_SERVICE_ID: tb-lwm2m-transport
-  #     JAVA_OPTS: "${JAVA_OPTS}"
-  #   env_file:
-  #     - tb-lwm2m-transport.env
-  #   volumes:
-  #     - ./tb-transports/lwm2m/conf:/config
-  #     - ./tb-transports/lwm2m/log:/var/log/tb-lwm2m-transport
-  #   depends_on:
-  #     - zookeeper
-  #     - tb-core1
-  #     - tb-core2
-  # tb-snmp-transport:
-  #   restart: always
-  #   image: "${DOCKER_REPO}/${SNMP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}"
-  #   environment:
-  #     TB_SERVICE_ID: tb-snmp-transport
-  #     JAVA_OPTS: "${JAVA_OPTS}"
-  #   env_file:
-  #     - tb-snmp-transport.env
-  #   volumes:
-  #     - ./tb-transports/snmp/conf:/config
-  #     - ./tb-transports/snmp/log:/var/log/tb-snmp-transport
-  #   depends_on:
-  #     - zookeeper
-  #     - tb-core1
-  #     - tb-core2
+      - kafka
   tb-web-ui1:
     restart: always
     image: "thingsboard/tb-web-ui:3.4.4"
@@ -271,13 +278,17 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-vc-executor.env
+      - cache-redis.env
+      - queue-kafka.env
     volumes:
       - ./tb-vc-executor/conf:/config
-      - ~/mytb-vc-executor/log:/var/log/tb-vc-executor
+      - ./tb-vc-executor/log:/var/log/tb-vc-executor
     depends_on:
+      - redis
       - zookeeper
       - tb-core1
       - tb-core2
+      - kafka
   tb-vc-executor2:
     restart: always
     image: "thingsboard/tb-vc-executor:latest"
@@ -288,13 +299,17 @@ services:
       JAVA_OPTS: "${JAVA_OPTS}"
     env_file:
       - tb-vc-executor.env
+      - cache-redis.env
+      - queue-kafka.env
     volumes:
       - ./tb-vc-executor/conf:/config
-      - ~/mytb-vc-executor/log:/var/log/tb-vc-executor
+      - ./tb-vc-executor/log:/var/log/tb-vc-executor
     depends_on:
+      - redis
       - zookeeper
       - tb-core1
       - tb-core2
+      - kafka
   haproxy:
     restart: always
     container_name: "${LOAD_BALANCER_NAME}"

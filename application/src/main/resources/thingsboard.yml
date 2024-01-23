@@ -381,7 +381,7 @@ actors:
 
 cache:
   # caffeine or redis
-  type: "${CACHE_TYPE:redis}"
+  type: "${CACHE_TYPE:caffeine}"
   maximumPoolSize: "${CACHE_MAXIMUM_POOL_SIZE:16}" # max pool size to process futures that calls the external cache
   attributes:
     # make sure that if cache.type is 'redis' and cache.attributes.enabled is 'true' that you change 'maxmemory-policy' Redis config property to 'allkeys-lru', 'allkeys-lfu' or 'allkeys-random'
@@ -464,7 +464,7 @@ redis:
   connection:
     type: "${REDIS_CONNECTION_TYPE:standalone}"
   standalone:
-    host: "${REDIS_HOST:redis}"
+    host: "${REDIS_HOST:localhost}"
     port: "${REDIS_PORT:6379}"
     useDefaultClientConfig: "${REDIS_USE_DEFAULT_CLIENT_CONFIG:true}"
     # this value may be used only if you used not default ClientConfig
@@ -561,7 +561,7 @@ spring:
       ddl-auto: "none"
   datasource:
     driverClassName: "${SPRING_DRIVER_CLASS_NAME:org.postgresql.Driver}"
-    url: "${SPRING_DATASOURCE_URL:jdbc:postgresql://pgdb:5432/thingsboard}"
+    url: "${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/thingsboard}"
     username: "${SPRING_DATASOURCE_USERNAME:postgres}"
     password: "${SPRING_DATASOURCE_PASSWORD:admin}"
     hikari:
